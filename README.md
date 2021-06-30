@@ -13,7 +13,11 @@ The code uses standard unix utilities so it can only be run on Linux or Mac.  It
 - httpie
 - jq
 
+### Mac Specific
 On the Mac, you'll need to install the `core-utils` using `brew` and change the `DATE_PROG` variable in the script to point to `gdate` because Mac `date` utility doesn't use the same parameters.
+
+### Token
+The script needs a bearer token to authenticate to the server.  You'll need to find this on Bintang and save it in `./conf/token`.
 
 ## Usage
 ```
