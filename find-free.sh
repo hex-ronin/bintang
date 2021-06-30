@@ -43,7 +43,13 @@ echo "</style>" >> ${TEMP_HTML};
 echo "</head>" >> ${TEMP_HTML};
 echo "<body>" >> ${TEMP_HTML};
 
-echo "<p>Refreshing this page DOES NOT give real time updates.  It is a static page generated every hour.  Note the time below which gives when the page was generated.</p><p>As of ${NOW}, the court statuses are as follows:</p>" >> ${TEMP_HTML};
+echo "<p>Please Note the following:</p>" >> ${TEMP_HTML};
+echo "<ul>" >> ${TEMP_HTML};
+echo "<li>Refreshing this page DOES NOT perform real time updates.  It is a static page generated every hour.</li>" >> ${TEMP_HTML};
+echo "<li>Just because courts are available does not mean the gym is open for drop-in.  Double check the times when the gym is open.</li>" >> ${TEMP_HTML};
+echo "<li>The time below gives when the page was generated.</li>" >> ${TEMP_HTML};
+echo "</ul>" >> ${TEMP_HTML};
+echo "<p>As of ${NOW}, the court statuses are as follows:</p>" >> ${TEMP_HTML};
 
 for file in `ls ${CONF_DIR}/bintang-*`; do
   LOCATION=`grep location $file | cut -d ':' -f2 | tr -d ' '`;
@@ -56,12 +62,13 @@ for file in `ls ${CONF_DIR}/bintang-*`; do
   echo "<div class=\"location\">" >> ${TEMP_HTML};
   for i in "${DAYS[@]}"; do
     DATE=`${DATE_PROG} -d "+$i days" +"%Y-%m-%d"`;
+    DISPLAY_DATE=`${DATE_PROG} -d "+$i days" +"%Y-%m-%d %a"`;
     TIME_ZONE=`${DATE_PROG} +"%Z"`;
     CONDENSED_NAME=`echo ${NAME} | tr -d ' ()'`; 
     TEMP_FILENAME=${TEMP_DIR}/hours-${CONDENSED_NAME}-${DATE};
     TVAR=`${DATE_PROG} +%s%3N`;
     echo "<div class=\"licol\">" >> ${TEMP_HTML};    
-    echo "<h2>${DATE}</h2>" >> ${TEMP_HTML};
+    echo "<h2>${DISPLAY_DATE}</h2>" >> ${TEMP_HTML};
 
     http --check-status --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${LOCATION}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS}]" Authorization:"${TOKEN}" 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME};
     retVal=$?;
