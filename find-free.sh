@@ -82,5 +82,6 @@ for file in `ls ${CONF_DIR}/bintang-*`; do
   echo "</div>" >> ${TEMP_HTML};
 done
 echo "</body>" >> ${TEMP_HTML};
+echo "</html>" >> ${TEMP_HTML};
 
 cp -f ${TEMP_HTML} ${FINAL_DIR}/summary.html
