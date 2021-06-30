@@ -11,7 +11,7 @@ DAYS=(0 1 2 3)
 # DATE PROGRAM to use.  Use gdate on MAC
 DATE_PROG=date
 # AUTH TOKEN to use
-TOKEN=$4
+TOKEN=`cat ${1}/token`;
 
 TEMP_HTML=${TEMP_DIR}/summary.html
 
