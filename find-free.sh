@@ -11,7 +11,7 @@ DAYS=(0 1 2 3)
 # DATE PROGRAM to use.  Use gdate on MAC
 DATE_PROG=date
 # AUTH TOKEN to use
-TOKEN="Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxNDA3OTU3Iiwicm9sZSI6ImNsaWVudCIsIm5iZiI6MTYyMzY4NjkxMywiZXhwIjoxNzEwMDg2OTEzLCJpYXQiOjE2MjM2ODY5MTMsImlzcyI6IkJ1a3phIiwiYXVkIjoiVXNlcnMifQ.X3d0oOUllpyrx9m5UwmC_uBGU-nGimQgA2QvwuE8vjBqiK016zvdQ5WeG6pX9n-3N72clmD9m5JzNCQ5J0ixa0jOCdZ8gduwcFcsNUuDpeS8Xsh7xWyE3o6wYOIzjDp4psQCsyHQUvTmEvclnMqCwgfhCiUcrBKk2qciglMxSGNevuGoIn6oldNfHguUrOHZLRDy-jChoGqLBzmBq3-NLfPYdhHXy2V1vXvLrvBkKuDFZG_v4gUSMXW5ymlL75NbDWJ3VvEJ8TeCQP6473QQa4kefYslRljny4SI55b4qzYuhzb05jpC1Vv6t5fWnbRzB_RDrLLeI9OvDhdXYMJ3dA"
+TOKEN=$4
 
 TEMP_HTML=${TEMP_DIR}/summary.html
 
@@ -67,7 +67,7 @@ for file in `ls ${CONF_DIR}/bintang-*`; do
     retVal=$?;
     if [ ${retVal} -ne 0 ]; then
       echo "<p>Unable to get data due to ${retVal}</p>" >> ${TEMP_HTML};
-      http -v --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${LOCATION}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS}]" 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxNDA3OTU3Iiwicm9sZSI6ImNsaWVudCIsIm5iZiI6MTYyMzY4NjkxMywiZXhwIjoxNzEwMDg2OTEzLCJpYXQiOjE2MjM2ODY5MTMsImlzcyI6IkJ1a3phIiwiYXVkIjoiVXNlcnMifQ.X3d0oOUllpyrx9m5UwmC_uBGU-nGimQgA2QvwuE8vjBqiK016zvdQ5WeG6pX9n-3N72clmD9m5JzNCQ5J0ixa0jOCdZ8gduwcFcsNUuDpeS8Xsh7xWyE3o6wYOIzjDp4psQCsyHQUvTmEvclnMqCwgfhCiUcrBKk2qciglMxSGNevuGoIn6oldNfHguUrOHZLRDy-jChoGqLBzmBq3-NLfPYdhHXy2V1vXvLrvBkKuDFZG_v4gUSMXW5ymlL75NbDWJ3VvEJ8TeCQP6473QQa4kefYslRljny4SI55b4qzYuhzb05jpC1Vv6t5fWnbRzB_RDrLLeI9OvDhdXYMJ3dA' 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME}_ERROR 2>&1;
+      http -v --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${LOCATION}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS}]" Authorization:"${TOKEN}" 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME}_ERROR 2>&1;
     else 
       echo "<ul>" >> ${TEMP_HTML}
       for HOUR in `grep hours ${file} | cut -d ':' -f 2 | tr ',' '\n'`; do 
