@@ -49,7 +49,6 @@ for file in `ls ${CONF_DIR}/bintang-*`; do
   LOCATION=`grep location $file | cut -d ':' -f2 | tr -d ' '`;
   COURTS=`grep courts $file | cut -d ':' -f2`;
   NAME=`grep name $file | cut -d ':' -f2`;
-  TVAR=`${DATE_PROG} +%s%3N`;
   MESSAGE=`grep message $file | cut -d ':' -f2`;
 
   echo "<h1>${NAME}</h1>" >> ${TEMP_HTML};
@@ -60,6 +59,7 @@ for file in `ls ${CONF_DIR}/bintang-*`; do
     TIME_ZONE=`${DATE_PROG} +"%Z"`;
     CONDENSED_NAME=`echo ${NAME} | tr -d ' ()'`; 
     TEMP_FILENAME=${TEMP_DIR}/hours-${CONDENSED_NAME}-${DATE};
+    TVAR=`${DATE_PROG} +%s%3N`;
     echo "<div class=\"licol\">" >> ${TEMP_HTML};    
     echo "<h2>${DATE}</h2>" >> ${TEMP_HTML};
 
@@ -73,7 +73,7 @@ for file in `ls ${CONF_DIR}/bintang-*`; do
       for HOUR in `grep hours ${file} | cut -d ':' -f 2 | tr ',' '\n'`; do 
         HOUR_ZULU=`${DATE_PROG} -d "${DATE}T${HOUR}:00:00 ${TIME_ZONE}" -u +"%H"`;
         COURTS_FREE=`cat ${TEMP_FILENAME} | jq '.resources | .[] | {court: .resourceId, days: .days[]} | {court: .court, start: .days.startPoints[] | .date, end: .days.endPoints[] | .date}' | grep -B 1 "start.*T${HOUR_ZULU}:" | grep court | sort -u | wc -l`;
-        echo "<li>${HOUR}:00 ${TIME_ZONE} - ${COURTS_FREE} courts are free</li>" >> ${TEMP_HTML}
+	echo "<li>${HOUR}:00 ${TIME_ZONE} - ${COURTS_FREE} court(s) available</li>" >> ${TEMP_HTML}
       done
       echo "</ul>" >> ${TEMP_HTML};
       echo "</div>" >> ${TEMP_HTML};
