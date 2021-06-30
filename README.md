@@ -9,16 +9,15 @@ The main code is in `find-free.sh`.  It takes three parameters.
   1. The directory where the `summary.html` is written to.  This is the directory where your webserver should be pointing at.
 
 ## Setup
-The code uses standard unix utilities so it can only be run on linux or mac.  It uses two utilities that doesn't come standard but are easy to install.
+The code uses standard unix utilities so it can only be run on Linux or Mac.  It uses two utilities that doesn't come standard but are easy to install.
 - httpie
 - jq
 
-On the Mac, you'll need to install the `core-utils` using `brew` and you have to change the `DATE_PROG` variable in the script to point to `gdate` because Mac `date` utility doesn't use the same parameters.
+On the Mac, you'll need to install the `core-utils` using `brew` and change the `DATE_PROG` variable in the script to point to `gdate` because Mac `date` utility doesn't use the same parameters.
 
 ## Usage
-For example,
 ```
-# The following gives  the conf directory as first parameter and the current directory as both the temporary and final location.
+# The following gives the conf directory as first parameter and the current directory as both the temporary and final location.
 $ ./find-free.sh ./conf . . 
 
 # The following uses Linux tmp as the temporary location
