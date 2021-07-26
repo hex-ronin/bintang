@@ -38,9 +38,7 @@ You can run this as a cron job.
 
 ## Web Server
 
-This repo also contains a `bintang.yml` which deploys a web server in kubernetes that can be used to serve up the web page generated.  You just need to change the directory in the file to be the directory where you put the `summary.html`.  
-
-Alteratively, you can also use docker to run a container.
+You can use docker to run a web server container.
 ```
 $ docker run -dit --name bintang-web-server -p 8080:80 -v [directory to the summary.html]:/usr/local/apache2/htdocs/ httpd:2.4
 ```
