@@ -46,16 +46,17 @@ echo "</style>" >> ${TEMP_HTML};
 echo "</head>" >> ${TEMP_HTML};
 echo "<body>" >> ${TEMP_HTML};
 
-echo "<p>Please Note The Following:</p>" >> ${TEMP_HTML};
+echo "<h1>Please read the following before using the data on this page:</h1>" >> ${TEMP_HTML};
 echo "<ul>" >> ${TEMP_HTML};
 echo "<li>This is not official Bintang page.  Provided only as a convenience for my baddie friends</li>" >>${TEMP_HTML};
-echo "<li>Refreshing this page DOES NOT perform real time updates.  It is a static page generated every hour.</li>" >> ${TEMP_HTML};
+echo "<li>Refreshing this page DOES NOT perform real time updates.  It is a static page generated every hour, so no point in refreshing every 5 minutes.</li>" >> ${TEMP_HTML};
 echo "<li>Just because courts are available does not mean the gym is open for drop-in.  Double check the times when the gym is open.</li>" >> ${TEMP_HTML};
-echo "<li>The time below gives when the page was generated.</li>" >> ${TEMP_HTML};
+echo "<li>The time below gives when the page was generated.  The time should give you some idea how recent this data is</li>" >> ${TEMP_HTML};
 echo "<li>The numbers are gathered from 8am-3pm each day because the evening reservations stop at 3pm each day.</li>" >> ${TEMP_HTML};
-echo "<li>For current day's daytime courts, check <a href="daytime-summary.html">Daytime Court Summary</a>.</li>" >> ${TEMP_HTML};
+echo "<li>For current day's daytime courts (8am-5pm), check <a href="daytime-summary.html">Daytime Court Summary</a>.  This is because after 8am, all daytime courts become unreservable.  The other link has the correct numbers. </li>" >> ${TEMP_HTML};
+echo "<li>Bintang training does not use the reservation system so the numbers you see available here must be subtracted by the number of the courts Bintang training uses.  There's no training usage information online so you have to observe for the times that you often go how many courts are used by training and do that calculation yourself.</li>" >> ${TEMP_HTML};
 echo "</ul>" >> ${TEMP_HTML};
-echo "<p>As of ${NOW}, the court statuses are as follows:</p>" >> ${TEMP_HTML};
+echo "<p>As of <b>${NOW}</b>, the court statuses are as follows:</p>" >> ${TEMP_HTML};
 
 for file in `ls ${CONF_DIR}/bintang-*`; do
   LOCATION=`grep location $file | cut -d ':' -f2 | tr -d ' '`;
