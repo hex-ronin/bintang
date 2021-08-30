@@ -112,7 +112,6 @@ for file in ${CONF_DIR}/bintang-*; do
               fi
             fi
           fi
-          echo ${TEMP_FILENAME}
           HOUR_ZULU=$(${DATE_PROG} -d "${DATE}T${HOUR}:00:00 ${TIME_ZONE}" -u +"%H");
           COURTS_FREE=$(cat ${TEMP_FILENAME} | jq '.resources | .[] | {court: .resourceId, days: .days[]} | {court: .court, start: .days.startPoints[] | .date, end: .days.endPoints[] | .date}' | grep -B 1 "start.*T${HOUR_ZULU}:" | grep court | sort -u | wc -l);
           echo "<li>${HOUR}:00 ${TIME_ZONE} - ${COURTS_FREE} court(s) available</li>" >> ${TEMP_HTML}
@@ -127,4 +126,4 @@ done
 echo "</body>" >> ${TEMP_HTML};
 echo "</html>" >> ${TEMP_HTML};
 
-cp -f ${TEMP_HTML} ${FINAL_PATH}/summary.html
+cp -f ${TEMP_HTML} ${FINAL_PATH}
