@@ -1,5 +1,6 @@
 courts: 30684, 30755, 30756, 30757, 30759, 30760, 30761, 30762, 30763, 30764
 hours: 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22
 location: 17098
-name: Sunnyvale Bintang (11 Total Courts)
+display: Sunnyvale (11 Total Courts)
+name: Sunnyvale
 message: Note Sunnyvale reservation starts at 30 minutes pass the hour on weekdays and on the hour on weekends.
