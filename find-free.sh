@@ -75,11 +75,11 @@ for file in ${CONF_DIR}/bintang-*; do
   echo "<div class=\"location\">" >> ${TEMP_HTML};
 
   # Get the courts
-  http --check-status --ignore-stdin GET https://a.frontend.bukza.com/api/resource-groups/getCatalog/${BINTANG}/${LOCATION}?t={TVAR} Authorization:"${TOKEN}" > ${TEMP_COURTS_FILENAME};
+  http --verify=no --check-status --ignore-stdin GET https://a.frontend.bukza.com/api/resource-groups/getCatalog/${BINTANG}/${LOCATION}?t={TVAR} Authorization:"${TOKEN}" > ${TEMP_COURTS_FILENAME};
   retVal=$?;
   if [ ${retVal} -ne 0 ]; then
     echo "<p>Unable to get courts due to ${retVal}</p>" >> ${TEMP_HTML};
-    http -v --check-status --ignore-stdin GET https://a.frontend.bukza.com/api/resource-groups/getCatalog/${BINTANG}/${LOCATION}?t={TVAR} Authorization:"${TOKEN}" > ${TEMP_COURTS_FILENAME}_ERROR 2>&1;
+    http --verify=no -v --check-status --ignore-stdin GET https://a.frontend.bukza.com/api/resource-groups/getCatalog/${BINTANG}/${LOCATION}?t={TVAR} Authorization:"${TOKEN}" > ${TEMP_COURTS_FILENAME}_ERROR 2>&1;
   else
     COURTS=$(cat ${TEMP_COURTS_FILENAME} | jq '.items[] | .resourceId' | tr '\n' ',');
     for i in "${DAYS[@]}"; do
@@ -92,11 +92,11 @@ for file in ${CONF_DIR}/bintang-*; do
       echo "<div class=\"licol\">" >> ${TEMP_HTML};    
       echo "<h2>${DISPLAY_DATE}</h2>" >> ${TEMP_HTML};
 
-      http --check-status --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${BINTANG}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS::-1}]" Authorization:"${TOKEN}" 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME};
+      http --verify=no --check-status --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${BINTANG}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS::-1}]" Authorization:"${TOKEN}" 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME};
       retVal=$?;
       if [ ${retVal} -ne 0 ]; then
         echo "<p>Unable to get data due to ${retVal}</p>" >> ${TEMP_HTML};
-        http -v --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${BINTANG}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS::-1}]" Authorization:"${TOKEN}" 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME}_ERROR 2>&1;
+        http --verify=no -v --ignore-stdin post https://a.frontend.bukza.com/api/reservations/getAvailability/${BINTANG}?t=${TVAR} date="${DATE}T07:00:00.000Z" dayCount:=1 includeHours:=true includeRentalPoints:=true includeWorkRuleNames:=false resourceIds:="[${COURTS::-1}]" Authorization:"${TOKEN}" 'Content-Type: application/json;charset=utf-8' > ${TEMP_FILENAME}_ERROR 2>&1;
       else 
         echo "<ul>" >> ${TEMP_HTML}
         for HOUR in $(grep hours ${file} | cut -d ':' -f 2 | tr ',' '\n'); do
